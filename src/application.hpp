@@ -1,20 +1,18 @@
 #ifndef _LENIAAPPLICATION_
 #define _LENIAAPPLICATION_
 
+#include "world.hpp"
+
 class LeniaApplication
 {
 public:
-    LeniaApplication()
-    {
+    LeniaApplication();
+    ~LeniaApplication();
 
-    }
-
-    void run()
-    {
-        
-    }
+    void run();
 
 private:
+    LeniaWorld world;
 
 };
 
