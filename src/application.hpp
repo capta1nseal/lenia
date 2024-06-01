@@ -12,6 +12,8 @@ public:
     void run();
 
 private:
+    bool running;
+
     LeniaWorld world;
 
 };
