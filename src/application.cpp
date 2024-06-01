@@ -4,7 +4,6 @@
 
 LeniaApplication::LeniaApplication()
 {
-    world = LeniaWorld();
 }
 LeniaApplication::~LeniaApplication()
 {
