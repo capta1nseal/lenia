@@ -16,16 +16,16 @@ void LeniaApplication::run()
 {
     std::cin.tie(0);
     
-    world.printToTerminal();
+    graphicsInterface.draw(world.state());
 
     running = true;
 
     while (running)
     {
+        if (graphicsInterface.handleEvents()) running = false;
+
         world.progressState();
 
-        world.printToTerminal();
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        graphicsInterface.draw(world.state());
     }
 }

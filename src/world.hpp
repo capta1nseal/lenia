@@ -7,7 +7,7 @@
 class LeniaWorld
 {
 public:
-    LeniaWorld(unsigned int width = 32, unsigned int height = 18);
+    LeniaWorld(unsigned int width = 128, unsigned int height = 72);
 
     void randomizeWorld(double min = 0.0, double max = 1.0);
     
@@ -17,9 +17,13 @@ public:
 
     void printToTerminal();
 
+    const cv::Mat& state();
+
 private:
     unsigned int worldWidth;
     unsigned int worldHeight;
+
+    double timeFrequency;
 
     cv::Mat worldState;
     cv::Mat wrappedWorldState;

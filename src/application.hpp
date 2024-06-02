@@ -2,6 +2,7 @@
 #define _LENIAAPPLICATION_
 
 #include "world.hpp"
+#include "sdlGraphicsInterface.hpp"
 
 class LeniaApplication
 {
@@ -15,7 +16,7 @@ private:
     bool running;
 
     LeniaWorld world;
-
+    LeniaSdlGraphicsInterface graphicsInterface;
 };
 
 #endif
