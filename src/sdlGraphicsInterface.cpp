@@ -122,15 +122,21 @@ bool LeniaSdlGraphicsInterface::handleEvents()
     return false;
 }
 
-void LeniaSdlGraphicsInterface::draw(const cv::Mat& worldState)
+void LeniaSdlGraphicsInterface::draw(const std::array<cv::Mat, 3>& worldState)
 {
-    if (worldState.dims != 2) throw std::invalid_argument("World must be two-dimensional.");
-    if (worldState.rows != gridWidth or worldState.cols != gridHeight)
+    if (worldState[0].rows != gridWidth or worldState[0].cols != gridHeight)
     {
-        gridWidth = worldState.rows;
-        gridHeight = worldState.cols;
+        gridWidth = worldState[0].rows;
+        gridHeight = worldState[0].cols;
 
         initializeRenderTexture();
+    }
+
+    for (auto channel : worldState)
+    {
+        if (channel.dims != 2) throw std::invalid_argument("World must be two-dimensional.");
+
+        if (channel.rows != gridWidth or channel.cols != gridHeight) throw std::invalid_argument("Channels must be the same size");
     }
     
     SDL_SetRenderDrawColor(renderer, 0, 71, 171, 255);
@@ -142,11 +148,13 @@ void LeniaSdlGraphicsInterface::draw(const cv::Mat& worldState)
     {
         for (unsigned int y = 0; y < gridHeight; y++)
         {
-            int shade = std::clamp(static_cast<int>(floor<int>(256.0 * worldState.at<double>(x, y))), 0, 255);
+            int red   = std::clamp(static_cast<int>(floor<int>(256.0 * worldState[0].at<double>(x, y))), 0, 255);
+            int green = std::clamp(static_cast<int>(floor<int>(256.0 * worldState[1].at<double>(x, y))), 0, 255);
+            int blue  = std::clamp(static_cast<int>(floor<int>(256.0 * worldState[2].at<double>(x, y))), 0, 255);
 
-            texturePixels[y * texturePitch + x * 4    ] = static_cast<unsigned char>(shade);
-            texturePixels[y * texturePitch + x * 4 + 1] = static_cast<unsigned char>(shade);
-            texturePixels[y * texturePitch + x * 4 + 2] = static_cast<unsigned char>(shade);
+            texturePixels[y * texturePitch + x * 4    ] = static_cast<unsigned char>(blue);
+            texturePixels[y * texturePitch + x * 4 + 1] = static_cast<unsigned char>(green);
+            texturePixels[y * texturePitch + x * 4 + 2] = static_cast<unsigned char>(red);
             texturePixels[y * texturePitch + x * 4 + 3] = static_cast<unsigned char>(255);
         }
     }

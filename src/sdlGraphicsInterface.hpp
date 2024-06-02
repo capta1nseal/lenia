@@ -1,6 +1,8 @@
 #ifndef _LENIASDLGRAPHICSINTERFACE_
 #define _LENIASDLGRAPHICSINTERFACE_
 
+#include <array>
+
 #include <SDL2/SDL.h>
 #include <opencv2/opencv.hpp>
 
@@ -16,7 +18,7 @@ public:
     // returns true only if SDL should quit, therefore the program should stop
     bool handleEvents();
     // by default will not draw more frequently than current display's refresh rate
-    void draw(const cv::Mat& worldState);
+    void draw(const std::array<cv::Mat, 3>& worldState);
 
 private:
     unsigned int displayWidth, displayHeight;

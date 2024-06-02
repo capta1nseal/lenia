@@ -4,13 +4,14 @@
 #include <opencv2/opencv.hpp>
 #include <mutex>
 #include <vector>
+#include <array>
 
 #include "kernel.hpp"
 
 class LeniaWorld
 {
 public:
-    LeniaWorld(unsigned int width = 960, unsigned int height = 540);
+    LeniaWorld(unsigned int width = 480, unsigned int height = 270);
 
     void randomizeWorld(double min = 0.0, double max = 1.0);
     
@@ -20,7 +21,7 @@ public:
 
     void printToTerminal();
 
-    const cv::Mat& state();
+    const std::array<cv::Mat, 3>& state();
 
 private:
     unsigned int worldWidth, worldHeight;
@@ -29,10 +30,10 @@ private:
     int kernelRadius;
     double timeFrequency;
 
-    cv::Mat worldState;
-    cv::Mat fourierWorldState;
-    cv::Mat spectralFourierState;
-    cv::Mat calculationMatrix;
+    std::array<cv::Mat, 3> worldState;
+    std::array<cv::Mat, 3> fourierWorldState;
+    std::array<cv::Mat, 3> spectralFourierState;
+    std::array<cv::Mat, 3> calculationMatrix;
 
     // the convolution kernel used to calculate the equivalent of GOL's "live neighbours"
     std::vector<Kernel> kernels;
