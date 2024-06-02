@@ -3,8 +3,8 @@
 
 #include <opencv2/opencv.hpp>
 
-double gaussian(double inputValue, double peakValue = 1.0, double peakLocation = 0.0, double standardDeviation = 1.0);
+double gaussian(double inputValue, double peakValue = 1.0, double mean = 0.0, double standardDeviation = 1.0);
 
-void gaussian(const cv::Mat& inputMatrix, cv::Mat& outputMatrix, double peakValue = 1.0, double peakLocation = 0.0, double standardDeviation = 1.0);
+void gaussian(const cv::Mat& inputMatrix, cv::Mat& outputMatrix, double peakValue = 1.0, double mean = 0.0, double standardDeviation = 1.0);
 
 #endif

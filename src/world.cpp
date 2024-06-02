@@ -10,7 +10,11 @@
 LeniaWorld::LeniaWorld(unsigned int width, unsigned int height)
     : worldWidth(width), worldHeight(height)
 {
+    kernelRadius = 10;
     timeFrequency = 10.0;
+
+    growthMean = 0.135;
+    growthStandardDeviation = 0.015;
 
     worldState = cv::Mat(worldWidth, worldHeight, CV_64F, 0.0);
     randomizeWorld();
@@ -115,5 +119,5 @@ double LeniaWorld::growthFunction(double inputValue)
     //
     //return 0.5;
     
-    return gaussian(inputValue, 2.0, 0.135, 0.015) - 1.0;
+    return gaussian(inputValue, 2.0, growthMean, growthStandardDeviation) - 1.0;
 }

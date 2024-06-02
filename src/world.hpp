@@ -23,7 +23,11 @@ private:
     unsigned int worldWidth;
     unsigned int worldHeight;
 
+    int kernelRadius;
     double timeFrequency;
+
+    double growthMean;
+    double growthStandardDeviation;
 
     cv::Mat worldState;
     cv::Mat wrappedWorldState;
