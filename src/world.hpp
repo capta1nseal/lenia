@@ -10,7 +10,7 @@
 class LeniaWorld
 {
 public:
-    LeniaWorld(unsigned int width = 1920, unsigned int height = 1080);
+    LeniaWorld(unsigned int width = 256, unsigned int height = 144);
 
     void randomizeWorld(double min = 0.0, double max = 1.0);
     
@@ -29,21 +29,16 @@ private:
     int kernelRadius;
     double timeFrequency;
 
-    double growthMean;
-    double growthStandardDeviation;
-
     cv::Mat worldState;
     cv::Mat fourierWorldState;
-    cv::Mat wrappedWorldState;
+    cv::Mat spectralFourierState;
     cv::Mat calculationMatrix;
+    cv::Mat growthMatrix;
 
     // the convolution kernel used to calculate the equivalent of GOL's "live neighbours"
     std::vector<Kernel> kernels;
 
     std::mutex worldMutex;
-
-    // the growth function determining what happens to a cell based on its surroundings
-    double growthFunction(double factor);
 };
 
 #endif

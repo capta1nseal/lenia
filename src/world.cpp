@@ -11,13 +11,20 @@ LeniaWorld::LeniaWorld(unsigned int width, unsigned int height)
     : worldWidth(width), worldHeight(height)
 {
     kernelRadius = 20;
-    timeFrequency = 20.0;
-
-    growthMean = 0.135;
-    growthStandardDeviation = 0.015;
+    timeFrequency = 5.0;
 
     worldState = cv::Mat::zeros(worldWidth, worldHeight, CV_64F);
-    randomizeWorld();
+    // randomizeWorld(0.0, 1.0);
+
+    cv::Mat pattern = (cv::Mat_<double>(22, 22) << 0,0,0,0,0,0,0,0,0,0,0,0.06,0.1,0.04,0.02,0.01,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.15,0.37,0.5,0.44,0.19,0.23,0.3,0.23,0.15,0.01,0,0,0,0,0,0,0,0,0,0,0.32,0.78,0.26,0,0.11,0.11,0.1,0.08,0.18,0.16,0.17,0.24,0.09,0,0,0,0,0,0,0,0.45,0.16,0,0,0,0,0,0.15,0.15,0.16,0.15,0.1,0.09,0.21,0.24,0.12,0,0,0,0,0,0.1,0,0,0,0,0,0,0,0.17,0.39,0.43,0.34,0.25,0.15,0.16,0.15,0.25,0.03,0,0,0.15,0.06,0,0,0,0,0,0,0,0.24,0.72,0.92,0.85,0.61,0.47,0.39,0.27,0.12,0.18,0.17,0,0,0.08,0,0,0,0,0,0,0,0,1.0,1.0,1.0,1.0,0.73,0.6,0.56,0.31,0.12,0.15,0.24,0.01,0,0.16,0,0,0,0,0,0,0,0.76,1.0,1.0,1.0,1.0,0.76,0.72,0.65,0.39,0.1,0.17,0.24,0.05,0,0.05,0,0,0,0,0,0,0.21,0.83,1.0,1.0,1.0,1.0,0.86,0.85,0.76,0.36,0.17,0.13,0.21,0.07,0,0.05,0,0,0.02,0,0,0,0.4,0.91,1.0,1.0,1.0,1.0,1.0,0.95,0.79,0.36,0.21,0.09,0.18,0.04,0.06,0.08,0,0.18,0.21,0.1,0.03,0.38,0.92,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.64,0.31,0.12,0.07,0.25,0,0.05,0.12,0.27,0.4,0.34,0.42,0.93,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.97,0.33,0.16,0.05,0.1,0.26,0,0,0.25,0.21,0.39,0.99,1.0,1.0,1.0,1.0,1.0,1.0,0.86,0.89,0.94,0.83,0.13,0,0,0.04,0.21,0.18,0,0,0.06,0.29,0.63,0.84,0.97,1.0,1.0,1.0,0.96,0.46,0.33,0.36,0,0,0,0,0,0.03,0.35,0,0,0,0,0.13,0.22,0.59,0.85,0.99,1.0,0.98,0.25,0,0,0,0,0,0,0,0,0.34,0.14,0,0,0,0,0,0,0.33,0.7,0.95,0.8,0.33,0.11,0,0,0,0,0,0,0,0.11,0.26,0,0,0,0,0,0,0,0.16,0.56,0.52,0.51,0.4,0.18,0.01,0,0,0,0,0,0,0.42,0,0,0,0,0,0,0,0,0.01,0,0.33,0.47,0.33,0.05,0,0,0,0,0,0,0.35,0,0,0,0,0,0,0,0,0,0,0.26,0.32,0.13,0,0,0,0,0,0,0,0.34,0,0,0,0,0,0,0,0,0,0,0,0.22,0.25,0.03,0,0,0,0,0,0,0.46,0,0,0,0,0,0,0,0,0,0,0,0,0,0.09,0.2,0.22,0.23,0.23,0.22,0.3,0.3,0,0,0,0,0,0,0,0);
+
+    cv::resize(pattern, pattern, cv::Size(), 2.0, 2.0, cv::INTER_LINEAR);
+
+    int padding = 20;
+
+    cv::copyMakeBorder(pattern, pattern, padding, padding, padding, padding, cv::BORDER_CONSTANT, cv::Scalar::all(0.0));
+
+    cv::copyMakeBorder(pattern, worldState, 0, worldWidth - pattern.rows, 0, worldHeight - pattern.cols, cv::BORDER_WRAP);
 
     dftWidth = cv::getOptimalDFTSize(worldState.rows + kernelRadius * 2);
     dftHeight = cv::getOptimalDFTSize(worldState.cols + kernelRadius * 2);
@@ -44,7 +51,9 @@ void LeniaWorld::randomizeWorld(double min, double max)
 void LeniaWorld::defineKernels()
 {
     kernels.clear();
-    kernels.push_back(Kernel(kernelRadius, worldWidth, worldHeight, dftWidth, dftHeight));
+    kernels.push_back(Kernel(kernelRadius, worldWidth, worldHeight, dftWidth, dftHeight, {1.0, 5.0 / 12.0, 2.0 / 3.0}, 0.156, 0.0118));
+    kernels.push_back(Kernel(kernelRadius, worldWidth, worldHeight, dftWidth, dftHeight, {1.0 / 12.0, 1.0}, 0.193, 0.049));
+    kernels.push_back(Kernel(kernelRadius, worldWidth, worldHeight, dftWidth, dftHeight, {1.0}, 0.342, 0.0891));
 }
 
 void LeniaWorld::progressState()
@@ -52,23 +61,35 @@ void LeniaWorld::progressState()
     cv::copyMakeBorder(worldState, fourierWorldState, kernelRadius, kernelRadius, kernelRadius, kernelRadius, cv::BORDER_WRAP);
     cv::copyMakeBorder(fourierWorldState, fourierWorldState, 0, dftWidth - fourierWorldState.rows, 0, dftHeight - fourierWorldState.cols, cv::BORDER_CONSTANT, cv::Scalar::all(0.0));
     
-    cv::dft(fourierWorldState, fourierWorldState, 0, wrappedWorldState.rows);
+    cv::dft(fourierWorldState, fourierWorldState, 0, worldState.rows + 2 * kernelRadius);
 
-    cv::mulSpectrums(fourierWorldState, kernels[0].getFourierKernel(), fourierWorldState, 0);
+    spectralFourierState.create(dftWidth, dftHeight, CV_64F);
 
-    cv::dft(fourierWorldState, fourierWorldState, cv::DFT_INVERSE + cv::DFT_SCALE, worldState.rows + kernelRadius * 2);
+    for (auto kernel : kernels)
+    {
+        cv::mulSpectrums(fourierWorldState, kernel.getFourierKernel(), spectralFourierState, 0);
 
-    calculationMatrix.create(worldWidth, worldHeight, CV_64F);
-    calculationMatrix = fourierWorldState(cv::Rect(kernelRadius, kernelRadius, worldHeight, worldWidth));
+        cv::dft(spectralFourierState, spectralFourierState, cv::DFT_INVERSE + cv::DFT_SCALE, worldState.rows + kernelRadius * 2);
 
+        calculationMatrix.create(worldWidth, worldHeight, CV_64F);
+        calculationMatrix = spectralFourierState(cv::Rect(kernelRadius * 2, kernelRadius * 2, worldHeight, worldWidth));
+
+        gaussian(calculationMatrix, calculationMatrix, 2.0, kernel.mean, kernel.deviation);
+        calculationMatrix.forEach<double>(
+            [timeFrequency = timeFrequency]
+            (double& value, const int* position)
+            {
+                value = (value - 1.0) / timeFrequency;
+            }
+        );
+
+        worldState = worldState + (calculationMatrix / static_cast<double>(kernels.size()));
+    }
     worldState.forEach<double>(
-        [this]
+        []
         (double& value, const int* position)
         {
-            int x = position[0];
-            int y = position[1];
-
-            value = std::clamp(value + (1.0 / this->timeFrequency) * this->growthFunction(calculationMatrix.at<double>(x + kernelRadius, y + kernelRadius)), 0.0, 1.0);
+            value = std::clamp(value, 0.0, 1.0);
         }
     );
 }
@@ -105,16 +126,4 @@ void LeniaWorld::printToTerminal()
 const cv::Mat& LeniaWorld::state()
 {
     return worldState;
-}
-
-double LeniaWorld::growthFunction(double inputValue)
-{
-    // the default growth function for conway's game of life
-    //if (inputValue <= 1 or inputValue > 3) return -0.5;
-    //
-    //if (inputValue <= 2) return 0.0;
-    //
-    //return 0.5;
-    
-    return gaussian(inputValue, 2.0, growthMean, growthStandardDeviation) - 1.0;
 }

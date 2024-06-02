@@ -26,7 +26,7 @@ LeniaSdlGraphicsInterface::LeniaSdlGraphicsInterface()
     uint32_t renderFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
     renderer = SDL_CreateRenderer(window, -1, renderFlags);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
 
     initializeRenderTexture();
 }
