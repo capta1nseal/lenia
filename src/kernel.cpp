@@ -21,13 +21,13 @@ Kernel::Kernel(
     int centerY = kernelRadius;
 
     kernel.forEach<double>(
-        [centerX, centerY, kernelRadius, &peaks = peaks]
+        [centerX, centerY, kernelRadius, &peaks = peaks, radius = radius]
         (double &value, const int* position)
         {
             int dx = position[0] - centerX;
             int dy = position[1] - centerY;
 
-            double normalizedDifference = sqrt(dx * dx + dy * dy) / kernelRadius * peaks.size();
+            double normalizedDifference = sqrt(dx * dx + dy * dy) / kernelRadius * peaks.size() / radius;
             value = (normalizedDifference < peaks.size()) * peaks[std::min(static_cast<int>(normalizedDifference), static_cast<int>(peaks.size() - 1))] * gaussian(normalizedDifference - floor(normalizedDifference), 1.0, 0.5, 0.15);
         }
     );
