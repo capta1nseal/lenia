@@ -1,2 +1,4 @@
 bin/
+dep/
+obj/
 .vscode/

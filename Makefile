@@ -1,12 +1,12 @@
-SRCDIR  = src
-BINDIR  = bin
-OBJDIR := $(BINDIR)/obj
-DEPDIR := $(BINDIR)/dep
-TARGET  = lenia
+SRCDIR := src
+BINDIR := bin
+OBJDIR := obj
+DEPDIR := dep
+TARGET := $(BINDIR)/lenia
 
 SRCS := $(shell find $(SRCDIR) -name "*.cpp")
 OBJS := $(SRCS:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
-DEPS := $(SRCS:$(SRCDIR)/%.cpp=¤(DEPDIR)/%.d)
+DEPS := $(SRCS:$(SRCDIR)/%.cpp=$(DEPDIR)/%.d)
 TREE := $(sort $(patsubst %/,%,$(dir $(OBJS))))
 
 CPPFLAGS     = -MMD -MP -MF $(@:$(OBJDIR)/%.o=$(DEPDIR)/%.d)
@@ -18,25 +18,28 @@ LINKFLAGS    = -lSDL2 -lSDL2main -lopencv_core -lopencv_imgproc
 
 .PHONY: build test clean
 
+all: $(TARGET)
+
 $(TARGET): $(OBJS)
-	g++ -o $(BINDIR)/$@ $^ $(CXXFLAGS) $(INCLUDEFLAGS) $(LINKFLAGS)
+	g++ -o $@ $^ $(CXXFLAGS) $(INCLUDEFLAGS) $(LINKFLAGS)
 
 build: $(TARGET)
 
 test: $(TARGET)
-	cd  $(BINDIR); ./$(TARGET); cd ..
+	cd  $(BINDIR); ../$(TARGET); cd ..
 
 .SECONDEXPANSION:
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp | $$(@D)
 	g++ $(CPPFLAGS) $(CXXFLAGS) $(INCLUDEFLAGS) $(LINKFLAGS) -o $@ -c $<
 
 $(TREE): %:
+	mkdir -p $(BINDIR)
 	mkdir -p $@
 	mkdir -p $(@:$(OBJDIR)%=$(DEPDIR)%)
 
 clean:
-	rm -rf $(BINDIR)
+	$(RM) -r $(TARGET) $(BINDIR) $(OBJDIR) $(DEPDIR)
 
 ifeq "$(MAKECMDGOALS)" ""
-	-INCLUDE $(DEPS)
+	-include $(DEPS)
 endif

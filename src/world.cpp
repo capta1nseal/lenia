@@ -10,16 +10,21 @@
 LeniaWorld::LeniaWorld(unsigned int width, unsigned int height)
     : worldWidth(width), worldHeight(height)
 {
-    kernelRadius = 10;
-    timeFrequency = 10.0;
+    kernelRadius = 20;
+    timeFrequency = 20.0;
 
     growthMean = 0.135;
     growthStandardDeviation = 0.015;
 
-    worldState = cv::Mat(worldWidth, worldHeight, CV_64F, 0.0);
+    worldState = cv::Mat::zeros(worldWidth, worldHeight, CV_64F);
     randomizeWorld();
 
-    defineKernel();
+    dftWidth = cv::getOptimalDFTSize(worldState.rows + kernelRadius * 2);
+    dftHeight = cv::getOptimalDFTSize(worldState.cols + kernelRadius * 2);
+    cv::copyMakeBorder(worldState, fourierWorldState, kernelRadius, kernelRadius, kernelRadius, kernelRadius, cv::BORDER_WRAP);
+    cv::copyMakeBorder(fourierWorldState, fourierWorldState, 0, dftHeight - (worldHeight + 2 * kernelRadius), 0, dftWidth - (worldWidth + 2 * kernelRadius), cv::BORDER_CONSTANT, cv::Scalar::all(0.0));
+
+    defineKernels();
 }
 
 void LeniaWorld::randomizeWorld(double min, double max)
@@ -27,51 +32,43 @@ void LeniaWorld::randomizeWorld(double min, double max)
     std::default_random_engine randomEngine{std::random_device{}()};
     std::uniform_real_distribution<double> randomDistribution(min, max);
 
-    for (int x = 0; x < worldWidth; x++)
-    {
-        for (int y = 0; y < worldHeight; y++)
+    worldState.forEach<double>(
+        [&randomDistribution, &randomEngine]
+        (double& value, const int* position)
         {
-            worldState.at<double>(x, y) = randomDistribution(randomEngine);
+            value = randomDistribution(randomEngine);
         }
-    }
+    );
 }
 
-void LeniaWorld::defineKernel()
+void LeniaWorld::defineKernels()
 {
-    kernel = cv::Mat::zeros(21, 21, CV_64F);
-
-    int kernelRadius = kernel.cols / 2;
-    int center = kernelRadius;
-
-    for (int x = 0; x < kernel.rows; x++)
-    {
-        for (int y = 0; y < kernel.cols; y++)
-        {
-            int dx = center - x;
-            int dy = center - y;
-            double normalizedDifference = sqrt(dx * dx + dy * dy) / kernelRadius;
-            kernel.at<double>(x, y) = (normalizedDifference < 1.0) * gaussian(normalizedDifference, 1.0, 0.5, 0.15);
-        }
-    }
-
-    kernel = kernel / cv::sum(kernel);
+    kernels.clear();
+    kernels.push_back(Kernel(kernelRadius, worldWidth, worldHeight, dftWidth, dftHeight));
 }
 
 void LeniaWorld::progressState()
 {
-    int kernelRadius = kernel.cols / 2;
+    cv::copyMakeBorder(worldState, fourierWorldState, kernelRadius, kernelRadius, kernelRadius, kernelRadius, cv::BORDER_WRAP);
+    cv::copyMakeBorder(fourierWorldState, fourierWorldState, 0, dftWidth - fourierWorldState.rows, 0, dftHeight - fourierWorldState.cols, cv::BORDER_CONSTANT, cv::Scalar::all(0.0));
+    
+    cv::dft(fourierWorldState, fourierWorldState, 0, wrappedWorldState.rows);
 
-    cv::copyMakeBorder(worldState, wrappedWorldState, kernelRadius, kernelRadius, kernelRadius, kernelRadius, cv::BORDER_WRAP);
+    cv::mulSpectrums(fourierWorldState, kernels[0].getFourierKernel(), fourierWorldState, 0);
 
-    cv::filter2D(wrappedWorldState, calculationMatrix, -1, kernel, cv::Point(-1, -1), 0, cv::BORDER_CONSTANT);
+    cv::dft(fourierWorldState, fourierWorldState, cv::DFT_INVERSE + cv::DFT_SCALE, worldState.rows + kernelRadius * 2);
+
+    calculationMatrix.create(worldWidth, worldHeight, CV_64F);
+    calculationMatrix = fourierWorldState(cv::Rect(kernelRadius, kernelRadius, worldHeight, worldWidth));
 
     worldState.forEach<double>(
-        [this, kernelRadius](double& value, const int* position)
+        [this]
+        (double& value, const int* position)
         {
             int x = position[0];
             int y = position[1];
 
-            value = std::clamp(value + (1 / this->timeFrequency) * this->growthFunction(calculationMatrix.at<double>(x + kernelRadius, y + kernelRadius)), 0.0, 1.0);
+            value = std::clamp(value + (1.0 / this->timeFrequency) * this->growthFunction(calculationMatrix.at<double>(x + kernelRadius, y + kernelRadius)), 0.0, 1.0);
         }
     );
 }

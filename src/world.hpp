@@ -3,15 +3,18 @@
 
 #include <opencv2/opencv.hpp>
 #include <mutex>
+#include <vector>
+
+#include "kernel.hpp"
 
 class LeniaWorld
 {
 public:
-    LeniaWorld(unsigned int width = 128, unsigned int height = 72);
+    LeniaWorld(unsigned int width = 1920, unsigned int height = 1080);
 
     void randomizeWorld(double min = 0.0, double max = 1.0);
     
-    void defineKernel();
+    void defineKernels();
 
     void progressState();
 
@@ -20,8 +23,8 @@ public:
     const cv::Mat& state();
 
 private:
-    unsigned int worldWidth;
-    unsigned int worldHeight;
+    unsigned int worldWidth, worldHeight;
+    unsigned int dftWidth, dftHeight;
 
     int kernelRadius;
     double timeFrequency;
@@ -30,11 +33,12 @@ private:
     double growthStandardDeviation;
 
     cv::Mat worldState;
+    cv::Mat fourierWorldState;
     cv::Mat wrappedWorldState;
     cv::Mat calculationMatrix;
 
     // the convolution kernel used to calculate the equivalent of GOL's "live neighbours"
-    cv::Mat kernel;
+    std::vector<Kernel> kernels;
 
     std::mutex worldMutex;
 
