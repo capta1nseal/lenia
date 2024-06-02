@@ -5,8 +5,8 @@
 
 double gaussian(double inputValue, double peakValue, double peakLocation, double standardDeviation)
 {
-    double temp = inputValue - peakLocation;
-    return peakValue * exp(-(temp * temp) / (2 * standardDeviation * standardDeviation));
+    double temp = (inputValue - peakLocation) / standardDeviation;
+    return peakValue * exp(-(temp * temp / 2.0));
 }
 
 void gaussian(const cv::Mat& inputMatrix, cv::Mat& outputMatrix, double peakValue, double peakLocation, double standardDeviation)
