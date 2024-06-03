@@ -6,7 +6,7 @@ lenia is an extension of conway's game of life, replacing its binary states and 
 
 this project is a full implementation of lenia, with 3 world channels, configurable kernels and growth functions. there are some limitations:
 - it gets slow really fast as world resolution increases
-- kernels and patterns have to be written into the source code, and nothing can really be changed at runtime
+- kernel parameters and patterns have to be written into the source code, and nothing can really be changed at runtime
 - systems without openCV can't run this at the moment, so it either needs to be distributed with the project, or statically linked (which may be hard)
 
 ### installation and running
