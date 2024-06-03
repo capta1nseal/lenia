@@ -12,11 +12,12 @@ double gaussian(double inputValue, double peakValue, double mean, double standar
 void gaussian(const cv::Mat& inputMatrix, cv::Mat& outputMatrix, double peakValue, double mean, double standardDeviation)
 {
     outputMatrix = inputMatrix;
-    for (int x = 0; x < inputMatrix.rows; x++)
-    {
-        for (int y = 0; y < inputMatrix.cols; y++)
+
+    outputMatrix.forEach<double>(
+        [peakValue, mean, standardDeviation]
+        (double &value, const int* position)
         {
-            outputMatrix.at<double>(x, y) = gaussian(inputMatrix.at<double>(x, y), peakValue, mean, standardDeviation);
+            value = gaussian(value, peakValue, mean, standardDeviation);
         }
-    }
+    );
 }
