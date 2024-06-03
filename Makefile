@@ -13,7 +13,7 @@ CPPFLAGS     = -MMD -MP -MF $(@:$(OBJDIR)/%.o=$(DEPDIR)/%.d)
 CXXWARNFLAGS = -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wzero-as-null-pointer-constant -Wunused -Woverloaded-virtual -Wformat=2 -Werror=vla -Wmisleading-indentation -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wnull-dereference
 # add -march=native after -O3 if you wish to optimise the code for your machine. may not run on other machines.
 CXXFLAGS    := -std=c++20 -O3 $(CXXWARNFLAGS)
-INCLUDEFLAGS = -I/usr/local/include/opencv4 -L/usr/local/lib -L/usr/local/lib/opencv4/3rdparty
+INCLUDEFLAGS = -I/usr/local/include/opencv4 -L/usr/local/lib
 LINKFLAGS    = -lSDL2 -lSDL2main -lopencv_imgproc -lopencv_core -ldl -lm -lpthread -lrt
 
 .PHONY: build test clean
