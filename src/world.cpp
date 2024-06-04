@@ -29,7 +29,7 @@ LeniaWorld::LeniaWorld(unsigned int width, unsigned int height)
 
     kernelRadius *= scaleFactor;
     
-    int padding = 25;
+    int padding = 30;
 
     for (auto &channel : pattern)
     {
@@ -180,5 +180,5 @@ void LeniaWorld::printToTerminal()
 
 const std::array<cv::Mat, 3>& LeniaWorld::state()
 {
-    return worldState;
+    return fourierWorldState;
 }
