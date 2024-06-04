@@ -11,7 +11,7 @@
 class LeniaWorld
 {
 public:
-    LeniaWorld(unsigned int width = 480, unsigned int height = 270);
+    LeniaWorld(unsigned int width = 16*50, unsigned int height = 9*50);
 
     void randomizeWorld(double min = 0.0, double max = 1.0);
     
