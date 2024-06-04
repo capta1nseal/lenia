@@ -180,5 +180,5 @@ void LeniaWorld::printToTerminal()
 
 const std::array<cv::Mat, 3>& LeniaWorld::state()
 {
-    return fourierWorldState;
+    return worldState;
 }
