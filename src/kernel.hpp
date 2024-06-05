@@ -28,7 +28,7 @@ struct Kernel
         int sourceChannel = 0, int destChannel = 0
     );
 
-    const cv::Mat& getFourierKernel();
+    const cv::Mat& getFourierKernel() const;
 };
 
 #endif

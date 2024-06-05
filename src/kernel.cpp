@@ -41,7 +41,7 @@ Kernel::Kernel(
     cv::dft(fourierKernel, fourierKernel, 0, kernelRadius * 2 + 1);
 }
 
-const cv::Mat& Kernel::getFourierKernel()
+const cv::Mat& Kernel::getFourierKernel() const
 {
     return fourierKernel;
 }

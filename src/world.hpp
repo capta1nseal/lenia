@@ -1,17 +1,19 @@
 #ifndef _LENIAWORLD_
 #define _LENIAWORLD_
 
-#include <opencv2/opencv.hpp>
 #include <mutex>
 #include <vector>
 #include <array>
+#include <condition_variable>
+
+#include <opencv2/opencv.hpp>
 
 #include "kernel.hpp"
 
 class LeniaWorld
 {
 public:
-    LeniaWorld(unsigned int width = 16*50, unsigned int height = 9*50);
+    LeniaWorld(unsigned int width = 16*40, unsigned int height = 9*40);
 
     void randomizeWorld(double min = 0.0, double max = 1.0);
     
@@ -35,10 +37,12 @@ private:
     std::array<cv::Mat, 3> spectralFourierState;
     std::array<cv::Mat, 3> calculationMatrix;
 
-    // the convolution kernel used to calculate the equivalent of GOL's "live neighbours"
     std::vector<Kernel> kernels;
 
     std::mutex worldMutex;
+    std::condition_variable convolutionDoneYet;
+
+    static cv::Mat convolution(const Kernel& kernel, const cv::Mat& fourierChannel, const int& worldWidth, const int& worldHeight, const int& kernelRadius, const double& timeFrequency, std::condition_variable* doneYet);
 };
 
 #endif
