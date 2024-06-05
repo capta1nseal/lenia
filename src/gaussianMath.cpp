@@ -21,3 +21,22 @@ void gaussian(const cv::Mat& inputMatrix, cv::Mat& outputMatrix, double peakValu
         }
     );
 }
+
+double growth(double inputValue, double magnitude, double mean, double standardDeviation)
+{
+    double temp = (inputValue - mean) / standardDeviation;
+    return magnitude * (2.0 * exp(-(temp * temp) / 2.0) - 1.0);    
+}
+
+void growth(const cv::Mat& inputMatrix, cv::Mat& outputMatrix, double magnitude, double mean, double standardDeviation)
+{
+    outputMatrix = inputMatrix;
+
+    outputMatrix.forEach<double>(
+        [magnitude, mean, standardDeviation]
+        (double &value, const int* position)
+        {
+            value = growth(value, magnitude, mean, standardDeviation);
+        }
+    );
+}
