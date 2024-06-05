@@ -162,21 +162,6 @@ void LeniaSdlGraphicsInterface::draw(const std::array<cv::Mat, 3>& worldState)
         }
     );
 
-    //for (unsigned int x = 0; x < gridWidth; x++)
-    //{
-    //    for (unsigned int y = 0; y < gridHeight; y++)
-    //    {
-    //        int red   = std::clamp(static_cast<int>(floor<int>(256.0 * worldState[0].at<double>(x, y))), 0, 255);
-    //        int green = std::clamp(static_cast<int>(floor<int>(256.0 * worldState[1].at<double>(x, y))), 0, 255);
-    //        int blue  = std::clamp(static_cast<int>(floor<int>(256.0 * worldState[2].at<double>(x, y))), 0, 255);
-    //
-    //        texturePixels[y * texturePitch + x * 4    ] = static_cast<unsigned char>(blue);
-    //        texturePixels[y * texturePitch + x * 4 + 1] = static_cast<unsigned char>(green);
-    //        texturePixels[y * texturePitch + x * 4 + 2] = static_cast<unsigned char>(red);
-    //        texturePixels[y * texturePitch + x * 4 + 3] = static_cast<unsigned char>(255);
-    //    }
-    //}
-
     SDL_UnlockTexture(renderTexture);
 
     SDL_FRect destination;
