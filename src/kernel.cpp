@@ -22,7 +22,7 @@ Kernel::Kernel(
 
     kernel.forEach<double>(
         [centerX, centerY, kernelRadius, &peaks = peaks, radius = radius]
-        (double &value, const int* position)
+        (double& value, const int* position)
         {
             int dx = position[0] - centerX;
             int dy = position[1] - centerY;

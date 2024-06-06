@@ -18,7 +18,7 @@ LeniaSdlGraphicsInterface::LeniaSdlGraphicsInterface()
 
     uint32_t windowFlags = SDL_WINDOW_RESIZABLE;
     window = SDL_CreateWindow(
-        "mandelbrot",
+        "lenia",
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
         displayWidth, displayHeight,
         windowFlags);
@@ -50,15 +50,18 @@ void LeniaSdlGraphicsInterface::initializeRenderTexture()
 
 void LeniaSdlGraphicsInterface::initializeScaling()
 {
-    if (displayWidth / gridWidth < displayHeight / gridHeight)
+
+    double horizontalCellSize = static_cast<double>(displayWidth) / static_cast<double>(gridWidth);
+    double verticalCellSize = cellSize = static_cast<double>(displayHeight) / static_cast<double>(gridHeight);
+    if (horizontalCellSize < verticalCellSize)
     {
-        cellSize = static_cast<double>(displayWidth) / static_cast<double>(gridWidth);
+        cellSize = horizontalCellSize;
         topLeft.x = 0.0;
         topLeft.y = (displayHeight - gridHeight * cellSize) / 2.0;
     }
     else
     {
-        cellSize = static_cast<double>(displayHeight) / static_cast<double>(gridHeight);
+        cellSize = verticalCellSize;
         topLeft.x = (displayWidth - gridWidth * cellSize) / 2.0;
         topLeft.y = 0.0;
     }
