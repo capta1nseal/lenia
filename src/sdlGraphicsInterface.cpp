@@ -18,7 +18,7 @@ LeniaSdlGraphicsInterface::LeniaSdlGraphicsInterface()
 
     uint32_t windowFlags = SDL_WINDOW_RESIZABLE;
     window = SDL_CreateWindow(
-        "mandelbrot",
+        "lenia",
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
         displayWidth, displayHeight,
         windowFlags);
