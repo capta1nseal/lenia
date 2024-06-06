@@ -15,7 +15,7 @@ void gaussian(const cv::Mat& inputMatrix, cv::Mat& outputMatrix, double peakValu
 
     outputMatrix.forEach<double>(
         [peakValue, mean, standardDeviation]
-        (double &value, const int* position)
+        (double& value, const int* position)
         {
             value = gaussian(value, peakValue, mean, standardDeviation);
         }
@@ -34,7 +34,7 @@ void growth(const cv::Mat& inputMatrix, cv::Mat& outputMatrix, double magnitude,
 
     outputMatrix.forEach<double>(
         [magnitude, mean, standardDeviation]
-        (double &value, const int* position)
+        (double& value, const int* position)
         {
             value = growth(value, magnitude, mean, standardDeviation);
         }

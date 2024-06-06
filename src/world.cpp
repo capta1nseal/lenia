@@ -23,7 +23,7 @@ LeniaWorld::LeniaWorld(unsigned int width, unsigned int height)
     kernelRadius = 12;
     timeFrequency = 2.0;
 
-    for (auto &channel : worldState)
+    for (auto& channel : worldState)
     {
         channel = cv::Mat::zeros(worldWidth, worldHeight, CV_64F);
     }
@@ -40,7 +40,7 @@ LeniaWorld::LeniaWorld(unsigned int width, unsigned int height)
     
     int padding = 30;
 
-    for (auto &channel : pattern)
+    for (auto& channel : pattern)
     {
         cv::resize(channel, channel, cv::Size(), scaleFactor, scaleFactor, cv::INTER_CUBIC);
         cv::copyMakeBorder(channel, channel, padding, padding, padding, padding, cv::BORDER_CONSTANT, cv::Scalar::all(0.0));
@@ -58,8 +58,8 @@ LeniaWorld::LeniaWorld(unsigned int width, unsigned int height)
 
     for (int i = 0; i < 3; i++)
     {
-        auto &channel = worldState[i];
-        auto &fourierChannel = fourierWorldState[i];
+        auto& channel = worldState[i];
+        auto& fourierChannel = fourierWorldState[i];
         cv::copyMakeBorder(channel, fourierChannel, kernelRadius, kernelRadius, kernelRadius, kernelRadius, cv::BORDER_WRAP);
         cv::copyMakeBorder(fourierChannel, fourierChannel, 0, dftHeight - (worldHeight + 2 * kernelRadius), 0, dftWidth - (worldWidth + 2 * kernelRadius), cv::BORDER_CONSTANT, cv::Scalar::all(0.0));
     }
@@ -72,7 +72,7 @@ void LeniaWorld::randomizeWorld(double min, double max)
     std::default_random_engine randomEngine{std::random_device{}()};
     std::uniform_real_distribution<double> randomDistribution(min, max);
 
-    for (auto &channel : worldState)
+    for (auto& channel : worldState)
     {
         channel.forEach<double>(
             [&randomDistribution, &randomEngine]
@@ -91,7 +91,7 @@ void LeniaWorld::noisifyWorld(double standardDeviation, double min, double max)
 
     std::mutex noiseMutex;
 
-    for (auto &channel : worldState)
+    for (auto& channel : worldState)
     {
         channel.forEach<double>(
             [&randomDistribution, &randomEngine, min, max, &noiseMutex]
@@ -129,8 +129,8 @@ void LeniaWorld::progressState()
 {
     for (int i = 0; i < 3; i++)
     {
-        auto &channel = worldState[i];
-        auto &fourierChannel = fourierWorldState[i];
+        auto& channel = worldState[i];
+        auto& fourierChannel = fourierWorldState[i];
 
         cv::copyMakeBorder(channel, fourierChannel, kernelRadius, kernelRadius, kernelRadius, kernelRadius, cv::BORDER_WRAP);
         cv::copyMakeBorder(fourierChannel, fourierChannel, 0, dftWidth - fourierChannel.rows, 0, dftHeight - fourierChannel.cols, cv::BORDER_CONSTANT, cv::Scalar::all(0.0));
@@ -141,9 +141,9 @@ void LeniaWorld::progressState()
     std::vector<std::future<cv::Mat>> futures;
     std::vector<bool> processedFutures;
 
-    for (auto &kernel : kernels)
+    for (auto& kernel : kernels)
     {
-        auto &fourierChannel = fourierWorldState[kernel.source];
+        auto& fourierChannel = fourierWorldState[kernel.source];
 
         futures.push_back(
             std::async(
@@ -182,7 +182,7 @@ void LeniaWorld::progressState()
         
     }
 
-    for (auto &channel : worldState)
+    for (auto& channel : worldState)
     {
         channel.forEach<double>(
             []
