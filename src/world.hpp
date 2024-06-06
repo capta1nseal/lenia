@@ -13,9 +13,11 @@
 class LeniaWorld
 {
 public:
-    LeniaWorld(unsigned int width = 16*40, unsigned int height = 9*40);
+    LeniaWorld(unsigned int width = 16*25, unsigned int height = 9*25);
 
     void randomizeWorld(double min = 0.0, double max = 1.0);
+
+    void noisifyWorld(double standardDeviation = 0.1, double min = 0.0, double max = 1.0);
     
     void defineKernels();
 
