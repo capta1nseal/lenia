@@ -10,21 +10,28 @@
 
 #include "kernel.hpp"
 
+
+/*
+class storing all simulation data and computation methods
+*/
 class LeniaWorld
 {
 public:
     LeniaWorld(unsigned int width = 16*30, unsigned int height = 9*30);
 
+    // values will be linearly distributed between min and max
     void randomizeWorld(float min = 0.0, float max = 1.0);
 
+    // adds noise to the world with a normal distribution, then clamps values between min and max
     void noisifyWorld(float standardDeviation = 0.1, float min = 0.0, float max = 1.0);
     
+    // currently populates the kernels vector with the default pattern's hardcoded kernels
     void defineKernels();
 
+    // calculate kernel convolutions, apply growth function, and clamp values between 0.0 and 1.0
     void progressState();
 
-    void printToTerminal();
-
+    // getter method for 3-channel world state
     const std::array<cv::Mat, 3>& state();
 
 private:
@@ -36,14 +43,13 @@ private:
 
     std::array<cv::Mat, 3> worldState;
     std::array<cv::Mat, 3> fourierWorldState;
-    std::array<cv::Mat, 3> spectralFourierState;
-    std::array<cv::Mat, 3> calculationMatrix;
 
     std::vector<Kernel> kernels;
 
     std::mutex worldMutex;
     std::condition_variable convolutionDoneYet;
 
+    // internal multithreading method for convolution by one kernel/thread, which informs the main thread that it can begin processing results when it is ready
     static cv::Mat convolution(const Kernel& kernel, const cv::Mat& fourierChannel, const int& worldWidth, const int& worldHeight, const int& kernelRadius, const float& timeFrequency, std::condition_variable* doneYet);
 };
 
