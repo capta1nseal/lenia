@@ -21,7 +21,7 @@ LeniaWorld::LeniaWorld(unsigned int width, unsigned int height)
     : worldWidth(width), worldHeight(height)
 {
     kernelRadius = 12;
-    timeFrequency = 10.0;
+    timeFrequency = 2.0;
 
     for (auto& channel : worldState)
     {
