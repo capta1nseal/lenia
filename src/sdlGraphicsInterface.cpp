@@ -51,8 +51,8 @@ void LeniaSdlGraphicsInterface::initializeRenderTexture()
 void LeniaSdlGraphicsInterface::initializeScaling()
 {
 
-    double horizontalCellSize = static_cast<double>(displayWidth) / static_cast<double>(gridWidth);
-    double verticalCellSize = cellSize = static_cast<double>(displayHeight) / static_cast<double>(gridHeight);
+    float horizontalCellSize = static_cast<float>(displayWidth) / static_cast<float>(gridWidth);
+    float verticalCellSize = cellSize = static_cast<float>(displayHeight) / static_cast<float>(gridHeight);
     if (horizontalCellSize < verticalCellSize)
     {
         cellSize = horizontalCellSize;
@@ -147,16 +147,16 @@ void LeniaSdlGraphicsInterface::draw(const std::array<cv::Mat, 3>& worldState)
 
     SDL_LockTexture(renderTexture, NULL, reinterpret_cast<void**>(&texturePixels), &texturePitch);
 
-    worldState[0].forEach<double>(
+    worldState[0].forEach<float>(
         [&texturePixels = texturePixels, &texturePitch = texturePitch, &greenChannel = worldState[1], &blueChannel = worldState[2]]
-        (double& value, const int* position)
+        (float& value, const int* position)
         {
             int x = position[0];
             int y = position[1];
 
             int red   = std::clamp(static_cast<int>(floor<int>(256.0 * value)), 0, 255);
-            int green = std::clamp(static_cast<int>(floor<int>(256.0 * greenChannel.at<double>(x, y))), 0, 255);
-            int blue  = std::clamp(static_cast<int>(floor<int>(256.0 * blueChannel.at<double>(x, y))), 0, 255);
+            int green = std::clamp(static_cast<int>(floor<int>(256.0 * greenChannel.at<float>(x, y))), 0, 255);
+            int blue  = std::clamp(static_cast<int>(floor<int>(256.0 * blueChannel.at<float>(x, y))), 0, 255);
 
             texturePixels[y * texturePitch + x * 4    ] = static_cast<unsigned char>(blue);
             texturePixels[y * texturePitch + x * 4 + 1] = static_cast<unsigned char>(green);

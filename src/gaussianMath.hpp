@@ -3,12 +3,12 @@
 
 #include <opencv2/opencv.hpp>
 
-double gaussian(double inputValue, double peakValue = 1.0, double mean = 0.0, double standardDeviation = 1.0);
+float gaussian(float inputValue, float peakValue = 1.0, float mean = 0.0, float standardDeviation = 1.0);
 
-void gaussian(const cv::Mat& inputMatrix, cv::Mat& outputMatrix, double peakValue = 1.0, double mean = 0.0, double standardDeviation = 1.0);
+void gaussian(const cv::Mat& inputMatrix, cv::Mat& outputMatrix, float peakValue = 1.0, float mean = 0.0, float standardDeviation = 1.0);
 
-double growth(double inputValue, double magnitude, double mean, double standardDeviation);
+float growth(float inputValue, float magnitude, float mean, float standardDeviation);
 
-void growth(const cv::Mat& inputMatrix, cv::Mat& outputMatrix, double magnitude, double mean, double standardDeviation);
+void growth(const cv::Mat& inputMatrix, cv::Mat& outputMatrix, float magnitude, float mean, float standardDeviation);
 
 #endif
