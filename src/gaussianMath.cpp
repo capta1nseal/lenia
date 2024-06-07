@@ -3,38 +3,38 @@
 #include <opencv2/opencv.hpp>
 #include <cmath>
 
-double gaussian(double inputValue, double peakValue, double mean, double standardDeviation)
+float gaussian(float inputValue, float peakValue, float mean, float standardDeviation)
 {
-    double temp = (inputValue - mean) / standardDeviation;
+    float temp = (inputValue - mean) / standardDeviation;
     return peakValue * exp(-(temp * temp / 2.0));
 }
 
-void gaussian(const cv::Mat& inputMatrix, cv::Mat& outputMatrix, double peakValue, double mean, double standardDeviation)
+void gaussian(const cv::Mat& inputMatrix, cv::Mat& outputMatrix, float peakValue, float mean, float standardDeviation)
 {
     outputMatrix = inputMatrix;
 
-    outputMatrix.forEach<double>(
+    outputMatrix.forEach<float>(
         [peakValue, mean, standardDeviation]
-        (double& value, const int* position)
+        (float& value, const int* position)
         {
             value = gaussian(value, peakValue, mean, standardDeviation);
         }
     );
 }
 
-double growth(double inputValue, double magnitude, double mean, double standardDeviation)
+float growth(float inputValue, float magnitude, float mean, float standardDeviation)
 {
-    double temp = (inputValue - mean) / standardDeviation;
+    float temp = (inputValue - mean) / standardDeviation;
     return magnitude * (2.0 * exp(-(temp * temp) / 2.0) - 1.0);    
 }
 
-void growth(const cv::Mat& inputMatrix, cv::Mat& outputMatrix, double magnitude, double mean, double standardDeviation)
+void growth(const cv::Mat& inputMatrix, cv::Mat& outputMatrix, float magnitude, float mean, float standardDeviation)
 {
     outputMatrix = inputMatrix;
 
-    outputMatrix.forEach<double>(
+    outputMatrix.forEach<float>(
         [magnitude, mean, standardDeviation]
-        (double& value, const int* position)
+        (float& value, const int* position)
         {
             value = growth(value, magnitude, mean, standardDeviation);
         }

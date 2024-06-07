@@ -15,9 +15,9 @@ class LeniaWorld
 public:
     LeniaWorld(unsigned int width = 16*30, unsigned int height = 9*30);
 
-    void randomizeWorld(double min = 0.0, double max = 1.0);
+    void randomizeWorld(float min = 0.0, float max = 1.0);
 
-    void noisifyWorld(double standardDeviation = 0.1, double min = 0.0, double max = 1.0);
+    void noisifyWorld(float standardDeviation = 0.1, float min = 0.0, float max = 1.0);
     
     void defineKernels();
 
@@ -32,7 +32,7 @@ private:
     unsigned int dftWidth, dftHeight;
 
     int kernelRadius;
-    double timeFrequency;
+    float timeFrequency;
 
     std::array<cv::Mat, 3> worldState;
     std::array<cv::Mat, 3> fourierWorldState;
@@ -44,7 +44,7 @@ private:
     std::mutex worldMutex;
     std::condition_variable convolutionDoneYet;
 
-    static cv::Mat convolution(const Kernel& kernel, const cv::Mat& fourierChannel, const int& worldWidth, const int& worldHeight, const int& kernelRadius, const double& timeFrequency, std::condition_variable* doneYet);
+    static cv::Mat convolution(const Kernel& kernel, const cv::Mat& fourierChannel, const int& worldWidth, const int& worldHeight, const int& kernelRadius, const float& timeFrequency, std::condition_variable* doneYet);
 };
 
 #endif

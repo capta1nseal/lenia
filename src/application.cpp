@@ -34,5 +34,5 @@ void LeniaApplication::run()
         frameCount++;
     }
 
-    std::cout << "Average frame time was " << (std::chrono::steady_clock::now() - start).count() / static_cast<double>(frameCount) * 1e-6 << " ms\n";
+    std::cout << "Average frame time was " << (std::chrono::steady_clock::now() - start).count() / static_cast<float>(frameCount) * 1e-6 << " ms\n";
 }
