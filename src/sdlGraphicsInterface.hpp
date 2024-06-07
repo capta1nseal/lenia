@@ -34,7 +34,7 @@ private:
     int texturePitch;
 
     SDL_FPoint topLeft;
-    double cellSize;
+    float cellSize;
 
     SDL_Event event;
 
