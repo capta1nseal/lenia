@@ -4,6 +4,10 @@
 #include "world.hpp"
 #include "sdlGraphicsInterface.hpp"
 
+/*
+wrapper class for the whole application, 
+doing nothing but initializing the other components and calling their methods in a loop
+*/
 class LeniaApplication
 {
 public:
