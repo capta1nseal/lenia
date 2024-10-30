@@ -1,0 +1,5 @@
+services:
+  lenia-build:
+    build: .
+    volumes:
+      - ./bin:/usr/src/lenia/bin
