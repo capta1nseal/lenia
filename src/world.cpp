@@ -158,7 +158,7 @@ void LeniaWorld::progressState()
 
     {
         std::unique_lock<std::mutex> lock(worldMutex);
-        convolutionDoneYet.wait(lock);
+        convolutionDoneYet.wait_for(lock, std::chrono::milliseconds(100)); // TECHNICALLY COULD NOT GET SIGNALED IF THREAD SCHEDULING IS MESSED UP
     }
 
 
