@@ -37,7 +37,7 @@ int main (int argc, char *argv[])
     if (useDefaultParams) {
         width = 16u*30u;
         height = 9u*30u;
-        radius = 60;
+        radius = 12;
         timeFrequency = 3.0;
     } else {
         validInputEntered = false;
