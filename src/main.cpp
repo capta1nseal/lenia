@@ -6,22 +6,22 @@
 
 int main (int argc, char *argv[])
 {
-    uint width, height
+    unsigned int width, height;
 
     if argc >= 2 {
         try {
-            width = std::stoi(argv[0])
+            width = std::stoi(argv[0]);
         } catch (std::exception const &e) {
-            return -1
+            return -1;
         }
         try {
-            height = std::stoi(argv[1])
+            height = std::stoi(argv[1]);
         } catch (std::exception const &e) {
-            return -1
+            return -1;
         }
     }
 
-    std::cout << "Size: (" << width << "," << height << ")"
+    std::cout << "Size: (" << width << "," << height << ")";
 
     auto application = LeniaApplication();
 
