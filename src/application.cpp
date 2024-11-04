@@ -5,7 +5,8 @@
 #include <chrono>
 #include <thread>
 
-LeniaApplication::LeniaApplication()
+LeniaApplication::LeniaApplication(unsigned int width, unsigned int height, int radius, float frequency)
+    : world(width, height, radius, frequency)
 {
 }
 LeniaApplication::~LeniaApplication()

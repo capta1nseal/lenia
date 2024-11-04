@@ -7,23 +7,21 @@
 int main (int argc, char *argv[])
 {
     unsigned int width, height;
+    int radius;
+    float timeFrequency;
 
-    if (argc >= 2) {
-        try {
-            width = std::stoi(argv[0]);
-        } catch (std::exception const &e) {
-            return -1;
-        }
-        try {
-            height = std::stoi(argv[1]);
-        } catch (std::exception const &e) {
-            return -1;
-        }
+    bool useDefaultParams = true;
+
+    if (useDefaultParams) {
+        width = 16u*30u
+        height = 9u*30u
+        radius = 12
+        timeFrequency = 3.0
     }
 
-    std::cout << "Size: (" << width << "," << height << ")";
+    std::cout << "Size: (" << width << "," << height << "), Kernel Radius: " << radius << ", Time Frequency: " << timeFrequency << "\n";
 
-    auto application = LeniaApplication();
+    auto application = LeniaApplication(width, height, radius, timeFrequency);
 
     application.run();
 
