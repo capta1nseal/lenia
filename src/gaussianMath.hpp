@@ -1,7 +1,7 @@
 #ifndef _LENIAGAUSSIANMATH_
 #define _LENIAGAUSSIANMATH_
 
-#include <opencv2/opencv.hpp>
+#include "opencvWrapper.hpp"
 
 // calculate gaussian of one float
 float gaussian(float inputValue, float peakValue = 1.0, float mean = 0.0, float standardDeviation = 1.0);

@@ -4,7 +4,7 @@
 #include <vector>
 #include <array>
 
-#include <opencv2/opencv.hpp>
+#include "opencvWrapper.hpp"
 
 #include "kernel.hpp"
 

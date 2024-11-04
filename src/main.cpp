@@ -14,6 +14,7 @@ int main (int argc, char *argv[])
     bool validInputEntered = false;
 
     while (validInputEntered == false) {
+        std::cin.clear();
         std::cout << "Use default paramaters, or enter manually? (1/2)\n";
         int option;
         std::cin >> option;
@@ -36,13 +37,15 @@ int main (int argc, char *argv[])
     if (useDefaultParams) {
         width = 16u*30u;
         height = 9u*30u;
-        radius = 12;
+        radius = 60;
         timeFrequency = 3.0;
     } else {
         validInputEntered = false;
         while (validInputEntered == false) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "Enter width:\n";
-            int option;
+            int option = 0;
             std::cin >> option;
 
             validInputEntered = true;
@@ -52,6 +55,57 @@ int main (int argc, char *argv[])
             } else {
                 validInputEntered = false;
                 std::cout << "Width must be positive and non-zero. Try again.\n";
+            }
+        }
+        validInputEntered = false;
+        while (validInputEntered == false) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Enter height:\n";
+            int option = 0;
+            std::cin >> option;
+
+            validInputEntered = true;
+
+            if (option > 0) {
+                height = static_cast<unsigned int>(option);
+            } else {
+                validInputEntered = false;
+                std::cout << "Height must be positive and non-zero. Try again.\n";
+            }
+        }
+        validInputEntered = false;
+        while (validInputEntered == false) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Enter kernel radius:\n";
+            int option = 0;
+            std::cin >> option;
+
+            validInputEntered = true;
+
+            if (option > 0) {
+                radius = option;
+            } else {
+                validInputEntered = false;
+                std::cout << "Kernel radius must be positive and non-zero. Try again.\n";
+            }
+        }
+        validInputEntered = false;
+        while (validInputEntered == false) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Enter time frequency:\n";
+            float option = 0.0f;
+            std::cin >> option;
+
+            validInputEntered = true;
+
+            if (option > 0.0f) {
+                timeFrequency = option;
+            } else {
+                validInputEntered = false;
+                std::cout << "Time frequency must be positive and non-zero. Try again.\n";
             }
         }
     }
