@@ -15,16 +15,16 @@ int main (int argc, char *argv[])
 
     while (validInputEntered == false) {
         std::cout << "Use default paramaters, or enter manually? (1/2)\n";
-        std::string option;
+        std::int option;
         std::cin >> option;
 
         validInputEntered = true;
 
         switch (option) {
-        case "1":
+        case 1:
             useDefaultParams = true;
             break;
-        case "2":
+        case 2:
             useDefaultParams = false;
             break;
         default:
