@@ -17,7 +17,7 @@ class storing all simulation data and computation methods
 class LeniaWorld
 {
 public:
-    LeniaWorld(unsigned int width = 16*30, unsigned int height = 9*30);
+    LeniaWorld(unsigned int width = 16*60, unsigned int height = 9*60);
 
     // values will be linearly distributed between min and max
     void randomizeWorld(float min = 0.0, float max = 1.0);
