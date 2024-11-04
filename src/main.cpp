@@ -15,7 +15,7 @@ int main (int argc, char *argv[])
 
     while (validInputEntered == false) {
         std::cout << "Use default paramaters, or enter manually? (1/2)\n";
-        std::int option;
+        int option;
         std::cin >> option;
 
         validInputEntered = true;
