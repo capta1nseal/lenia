@@ -13,10 +13,10 @@ int main (int argc, char *argv[])
     bool useDefaultParams = true;
 
     if (useDefaultParams) {
-        width = 16u*30u
-        height = 9u*30u
-        radius = 12
-        timeFrequency = 3.0
+        width = 16u*30u;
+        height = 9u*30u;
+        radius = 12;
+        timeFrequency = 3.0;
     }
 
     std::cout << "Size: (" << width << "," << height << "), Kernel Radius: " << radius << ", Time Frequency: " << timeFrequency << "\n";
