@@ -8,7 +8,7 @@ int main (int argc, char *argv[])
 {
     unsigned int width, height;
 
-    if argc >= 2 {
+    if (argc >= 2) {
         try {
             width = std::stoi(argv[0]);
         } catch (std::exception const &e) {
