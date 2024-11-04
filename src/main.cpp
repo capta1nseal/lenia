@@ -48,7 +48,7 @@ int main (int argc, char *argv[])
             validInputEntered = true;
 
             if (option > 0) {
-                width = std::static_cast<unsigned int>(option);
+                width = static_cast<unsigned int>(option);
             } else {
                 validInputEntered = false;
                 std::cout << "Width must be positive and non-zero. Try again.\n";
