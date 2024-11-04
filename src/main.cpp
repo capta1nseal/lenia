@@ -13,7 +13,7 @@ int main (int argc, char *argv[])
 
     bool validInputEntered = false;
 
-    for (validInputEntered == false) {
+    while (validInputEntered == false) {
         std::cout << "Use default paramaters, or enter manually? (1/2)\n";
         std::string option;
         std::cin >> option;
@@ -40,7 +40,7 @@ int main (int argc, char *argv[])
         timeFrequency = 3.0;
     } else {
         validInputEntered = false;
-        for (validInputEntered == false) {
+        while (validInputEntered == false) {
             std::cout << "Enter width:\n";
             int option;
             std::cin >> option;
