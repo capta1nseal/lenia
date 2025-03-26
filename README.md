@@ -6,9 +6,7 @@ Lenia is an extension of conway's game of life, replacing its binary states and 
 ## installation and running
 
 Builds are now handled with docker compose.
-To build:
-- `docker compose build` (install and build dependencies, takes a while the first time)
-- `docker compose up` (build the project itself)
+To build, run `./build` (or `./test` to run immediately after build)
 The binary will be output to bin/lenia.
 
 

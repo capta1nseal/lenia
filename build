@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# This script serves to wrap setting required environment variables, and running the build task.
+# Simply for convenience.
+
+export UID=$(id -u)
+export GID=$(id -g)
+
+docker compose build
+docker compose up
