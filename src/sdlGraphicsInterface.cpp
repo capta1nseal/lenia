@@ -1,7 +1,7 @@
 #include "sdlGraphicsInterface.hpp"
 
 #include <SDL2/SDL.h>
-#include <opencv2/opencv.hpp>
+#include "opencvWrapper.hpp"
 
 LeniaSdlGraphicsInterface::LeniaSdlGraphicsInterface()
 {

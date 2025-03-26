@@ -11,7 +11,7 @@ doing nothing but initializing the other components and calling their methods in
 class LeniaApplication
 {
 public:
-    LeniaApplication();
+    LeniaApplication(unsigned int width, unsigned int height, int radius, float frequency);
     ~LeniaApplication();
 
     void run();

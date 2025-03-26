@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Convenience script to build and run the entire project.
+
+./build
+
+echo "Build complete."
+echo "Running:"
+
+bin/lenia

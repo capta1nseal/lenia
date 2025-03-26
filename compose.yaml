@@ -3,3 +3,6 @@ services:
     build: .
     volumes:
       - ./bin:/usr/src/lenia/bin
+    environment:
+      - HOST_UID=${UID}
+      - HOST_GID=${GID}

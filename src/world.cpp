@@ -4,7 +4,7 @@
 #include <vector>
 #include <array>
 
-#include <opencv2/opencv.hpp>
+#include "opencvWrapper.hpp"
 
 #include "kernel.hpp"
 
@@ -17,12 +17,9 @@
 
 #include "gaussianMath.hpp"
 
-LeniaWorld::LeniaWorld(unsigned int width, unsigned int height)
-    : worldWidth(width), worldHeight(height)
+LeniaWorld::LeniaWorld(unsigned int width, unsigned int height, int radius, float frequency)
+    : worldWidth(width), worldHeight(height), kernelRadius(radius), timeFrequency(frequency)
 {
-    kernelRadius = 12;
-    timeFrequency = 3.0;
-
     for (auto& channel : worldState)
     {
         channel = cv::Mat::zeros(worldWidth, worldHeight, CV_32F);

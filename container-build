@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Wraps containerised builds.
+# Currently just runs make task and sets correct permissions for the mounted volume.
+
+make build -j16
+chown -R ${HOST_UID}:${HOST_GID} bin/

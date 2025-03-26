@@ -23,4 +23,4 @@ RUN mkdir /usr/src/lenia
 WORKDIR /usr/src/lenia
 COPY . .
 
-CMD ["make", "build", "-j16"]
+CMD ["./container-build"]

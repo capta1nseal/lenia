@@ -1,6 +1,6 @@
 #include "gaussianMath.hpp"
 
-#include <opencv2/opencv.hpp>
+#include "opencvWrapper.hpp"
 #include <cmath>
 
 float gaussian(float inputValue, float peakValue, float mean, float standardDeviation)
